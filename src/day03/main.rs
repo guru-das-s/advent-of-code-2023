@@ -1,4 +1,5 @@
-const TEST_INPUT: &str = include_str!("testinput");
+const TEST_INPUT: &str = include_str!("testinput3");
+const INPUT: &str = include_str!("input");
 
 fn check_if_part_num(
     schematic: &Vec<Vec<char>>,
@@ -10,14 +11,14 @@ fn check_if_part_num(
     let width = schematic[0].len() - 1;
 
     let row_up = if row > 0 { row - 1 } else { 0 };
-    let row_down = (row + 2).min(height);
+    let row_down = (row + 1).min(height);
     let col_left = if col_start > 0 { col_start - 1 } else { 0 };
-    let col_right = (col_end + 2).min(width);
+    let col_right = (col_end + 1).min(width);
 
     print!("({} {})({} {}): ", row_up, col_left, row_down, col_right);
 
-    for i in row_up..row_down {
-        for j in col_left..col_right {
+    for i in row_up..(row_down + 1) {
+        for j in col_left..(col_right + 1) {
             let c = schematic[i][j];
             if !c.is_ascii_digit() && c != '.' {
                 // Yay! It's a part number.
@@ -32,7 +33,7 @@ fn check_if_part_num(
 fn main() {
     let mut schematic: Vec<Vec<char>> = Vec::new();
 
-    for line in TEST_INPUT.lines() {
+    for line in INPUT.lines() {
         schematic.push(line.chars().collect::<Vec<_>>());
     }
 
@@ -51,14 +52,19 @@ fn main() {
                 col = col + 1;
                 continue;
             }
+
             // Number begins
             let num_start = col;
 
             // Find its end
             let mut num_end = 0;
-            while schematic[row][col].is_ascii_digit() {
+            while col < width && schematic[row][col].is_ascii_digit() {
                 col = col + 1;
             }
+
+            // // Guard against overflow - cap at max width index
+            // col = col.min(width - 1);
+
             num_end = col;
             let num: u32 = schematic[row][num_start..num_end]
                 .iter()
@@ -67,6 +73,7 @@ fn main() {
                 .parse::<u32>()
                 .unwrap();
             print!("{}: ", num);
+            num_end -= 1;
             let is_part_num = check_if_part_num(&schematic, row, num_start, num_end);
             print!("{}, ", is_part_num);
             if is_part_num == true {
