@@ -13,9 +13,11 @@ fn main() {
     println!("Height: {}, width: {}", height, width);
 
     for (i, row) in schematic.iter().enumerate() {
-        for (j, col) in row.iter().enumerate() {
-            print!("{}", schematic[i][j] as char);
+        print!("Row {}: ", i);
+        if let Some(num) = row.iter().position(|&x| x >= b'0' && x <= b'9') {
+            println!("{}", num);
+        } else {
+            println!("X");
         }
-        println!("");
     }
 }
