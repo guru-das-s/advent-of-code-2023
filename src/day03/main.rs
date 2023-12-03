@@ -17,7 +17,27 @@ fn main() {
 
     while row < height {
         while col < width {
-            print!("{}", schematic[row][col]);
+            let c = schematic[row][col];
+            if !c.is_ascii_digit() {
+                col = col + 1;
+                continue;
+            }
+            // Number begins
+            let num_start = col;
+
+            // Find its end
+            let mut num_end = 0;
+            while schematic[row][col].is_ascii_digit() {
+                col = col + 1;
+            }
+            num_end = col;
+            let num: u32 = schematic[row][num_start..num_end]
+                .iter()
+                .copied()
+                .collect::<String>()
+                .parse::<u32>()
+                .unwrap();
+            print!("{} ", num);
             col = col + 1;
         }
         row = row + 1;
