@@ -12,5 +12,5 @@ be unoptimized and decidedly inelegant. Don't judge.
 With that disclaimer, running each day's code is pretty simple:
 
 ```
-cargo run dayXX
+cargo run --bin dayXX
 ```
