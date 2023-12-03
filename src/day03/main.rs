@@ -1,5 +1,9 @@
 const TEST_INPUT: &str = include_str!("testinput");
 
+fn find_first_ascii_digit_index(data: &[u8]) -> Option<usize> {
+    data.iter().position(|&byte| byte >= b'0' && byte <= b'9')
+}
+
 fn main() {
     let mut schematic: Vec<Vec<u8>> = Vec::new();
 
@@ -14,10 +18,11 @@ fn main() {
 
     for (i, row) in schematic.iter().enumerate() {
         print!("Row {}: ", i);
-        if let Some(num) = row.iter().position(|&x| x >= b'0' && x <= b'9') {
-            println!("{}", num);
-        } else {
-            println!("X");
+        let mut start_index = 0;
+        while let Some(next_index) = find_first_ascii_digit_index(&row[start_index..]) {
+            print!("{} ", start_index + next_index);
+            start_index += next_index + 1;
         }
+        println!("");
     }
 }
