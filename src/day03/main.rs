@@ -42,6 +42,8 @@ fn main() {
     let mut row: usize = 0;
     let mut col: usize = 0;
 
+    let mut sum_of_parts = 0;
+
     while row < height {
         while col < width {
             let c = schematic[row][col];
@@ -67,10 +69,15 @@ fn main() {
             print!("{}: ", num);
             let is_part_num = check_if_part_num(&schematic, row, num_start, num_end);
             print!("{}, ", is_part_num);
+            if is_part_num == true {
+                sum_of_parts += num;
+            }
             col = col + 1;
         }
         row = row + 1;
         col = 0;
         println!("");
     }
+
+    println!("Sum of all valid part numbers: {}", sum_of_parts);
 }
