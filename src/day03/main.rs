@@ -6,13 +6,13 @@ fn check_if_part_num(
     col_start: usize,
     col_end: usize,
 ) -> bool {
-    let height = schematic.len();
-    let width = schematic[0].len();
+    let height = schematic.len() - 1;
+    let width = schematic[0].len() - 1;
 
     let row_up = if row > 0 { row - 1 } else { 0 };
-    let row_down = (row + 1).min(height);
+    let row_down = (row + 2).min(height);
     let col_left = if col_start > 0 { col_start - 1 } else { 0 };
-    let col_right = (col_end + 1).min(width);
+    let col_right = (col_end + 2).min(width);
 
     print!("({} {})({} {}): ", row_up, col_left, row_down, col_right);
 
