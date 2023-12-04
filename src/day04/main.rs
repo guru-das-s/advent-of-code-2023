@@ -43,5 +43,5 @@ fn calculate_total_points(all_cards: &str) -> u32 {
 fn main() {
     assert_eq!(calculate_total_points(TEST_INPUT), 13);
 
-    // println!("Part 1: Total points: {}", calculate_total_points(INPUT));
+    println!("Part 1: Total points: {}", calculate_total_points(INPUT));
 }
