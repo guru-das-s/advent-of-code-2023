@@ -5,7 +5,12 @@ extern crate regex;
 const TEST_INPUT: &str = include_str!("testinput");
 const INPUT: &str = include_str!("input");
 
-fn calculate_total_points(all_cards: &str) -> u32 {
+struct Card {
+    count: u32,
+    matches: u32,
+}
+
+fn calculate_total_points(all_cards: &str, card_db: &mut Vec<Card>) -> u32 {
     let mut total_points = 0;
     let re = Regex::new(r": ([0-9\s]+)+\|([0-9\s]+)+").unwrap();
     for card in all_cards.lines() {
@@ -32,6 +37,10 @@ fn calculate_total_points(all_cards: &str) -> u32 {
             // println!("Matches: {:?}", common);
             let base: u32 = 2;
             let len = common.len() as u32;
+            card_db.push(Card {
+                count: 1,
+                matches: len,
+            });
             if len > 0 {
                 total_points += base.pow(len - 1);
             }
@@ -41,7 +50,12 @@ fn calculate_total_points(all_cards: &str) -> u32 {
 }
 
 fn main() {
-    assert_eq!(calculate_total_points(TEST_INPUT), 13);
+    let mut test_card_db: Vec<Card> = Vec::new();
+    assert_eq!(calculate_total_points(TEST_INPUT, &mut test_card_db), 13);
 
-    println!("Part 1: Total points: {}", calculate_total_points(INPUT));
+    let mut card_db: Vec<Card> = Vec::new();
+    println!(
+        "Part 1: Total points: {}",
+        calculate_total_points(INPUT, &mut card_db)
+    );
 }
