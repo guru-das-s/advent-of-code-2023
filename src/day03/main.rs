@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 const TEST_INPUT: &str = include_str!("testinput");
 const INPUT: &str = include_str!("input");
 
@@ -7,18 +9,12 @@ struct Coord {
     col: usize,
 }
 
-#[derive(Hash, Eq, PartialEq, Debug)]
-struct Stars {
-    coord: Coord,
-    num: u32,
-}
-
 fn check_if_part_num(
     schematic: &Vec<Vec<char>>,
     row: usize,
     col_start: usize,
     col_end: usize,
-) -> (bool, bool) {
+) -> (bool, bool, Option<Coord>) {
     let height = schematic.len() - 1;
     let width = schematic[0].len() - 1;
 
@@ -35,21 +31,22 @@ fn check_if_part_num(
             if !c.is_ascii_digit() && c != '.' {
                 // Yay! It's a part number.
                 if c == '*' {
-                    return (true, true);
+                    return (true, true, Some(Coord { row: i, col: j }));
                 } else {
-                    return (true, false);
+                    return (true, false, None);
                 }
             }
         }
     }
 
-    (false, false)
+    (false, false, None)
 }
 
 fn main() {
     let mut schematic: Vec<Vec<char>> = Vec::new();
+    let mut nums_around_star: HashMap<Coord, Vec<u32>> = HashMap::new();
 
-    for line in TEST_INPUT.lines() {
+    for line in INPUT.lines() {
         schematic.push(line.chars().collect::<Vec<_>>());
     }
 
@@ -90,11 +87,19 @@ fn main() {
                 .unwrap();
             print!("{}: ", num);
             num_end -= 1;
-            let (is_part_num, is_star) = check_if_part_num(&schematic, row, num_start, num_end);
+            let (is_part_num, is_star, star_coord_option) =
+                check_if_part_num(&schematic, row, num_start, num_end);
             let print_star = if is_star { "[*] " } else { " " };
             print!("{}{}", is_part_num, print_star);
             if is_part_num == true {
                 sum_of_parts += num;
+                if is_star == true {
+                    let star_coord = star_coord_option.unwrap();
+                    let num_vec = nums_around_star
+                        .entry(star_coord)
+                        .or_insert_with(|| Vec::new());
+                    num_vec.push(num);
+                }
             }
             col = col + 1;
         }
@@ -104,4 +109,12 @@ fn main() {
     }
 
     println!("Sum of all valid part numbers: {}", sum_of_parts);
+    println!("{:?}", nums_around_star);
+    let mut gear_ratio_sum = 0;
+    for (_, numvec) in nums_around_star.iter() {
+        if numvec.len() == 2 {
+            gear_ratio_sum += numvec[0] * numvec[1];
+        }
+    }
+    println!("Sum of all gear ratios: {}", gear_ratio_sum);
 }
