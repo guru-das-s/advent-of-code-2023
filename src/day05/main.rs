@@ -78,9 +78,20 @@ fn walk_map(num: u32, map: &Vec<Vec<u32>>) -> u32 {
     num
 }
 
+fn lookup_seed_location(seed: u32, all_map_numbers: &Vec<Vec<Vec<u32>>>) -> u32 {
+    let mut location: u32 = seed;
+    for map in all_map_numbers.iter() {
+        location = walk_map(location, map)
+    }
+    location
+}
+
 fn main() {
     let (seeds, all_map_numbers) = parse_input(TEST_INPUT);
     assert_eq!(walk_map(98, &all_map_numbers[0]), 50);
     assert_eq!(walk_map(53, &all_map_numbers[0]), 55);
     assert_eq!(walk_map(10, &all_map_numbers[0]), 10);
+
+    assert_eq!(lookup_seed_location(79, &all_map_numbers), 82);
+    assert_eq!(lookup_seed_location(13, &all_map_numbers), 35);
 }
