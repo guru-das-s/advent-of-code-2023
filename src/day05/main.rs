@@ -54,13 +54,17 @@ fn parse_input(input: &str) {
     }
     println!("{:?}", text_marker_indices);
 
-    let line_iter = input.lines().skip(text_marker_indices[0] + 1);
-    let s2s_lines: Vec<Vec<u32>> = line_iter
-        .take_while(|line| line_has_only_nums(line))
-        .map(|line| get_numvec_from_string(line))
-        .collect();
+    let mut all_map_numbers: Vec<Vec<Vec<u32>>> = Vec::new();
+    for index in text_marker_indices.iter() {
+        let line_iter = input.lines().skip(*index + 1);
+        let x2x_lines: Vec<Vec<u32>> = line_iter
+            .take_while(|line| line_has_only_nums(line))
+            .map(|line| get_numvec_from_string(line))
+            .collect();
+        all_map_numbers.push(x2x_lines);
+    }
 
-    println!("{:?}", s2s_lines);
+    println!("{:?}", all_map_numbers);
 }
 
 fn main() {
