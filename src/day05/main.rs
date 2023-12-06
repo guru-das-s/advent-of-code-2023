@@ -113,5 +113,16 @@ fn main() {
     let mut min_location_per_range: Vec<u64> = Vec::new();
     for pair in seeds.chunks(2) {
         println!("{} {}", pair[0], pair[1]);
+        let mut locations_per_range: Vec<u64> = Vec::new();
+        for seed in pair[0]..(pair[0] + pair[1]) {
+            locations_per_range.push(lookup_seed_location(seed, &all_map_numbers));
+        }
+        let min_location = locations_per_range.iter().min().unwrap();
+        min_location_per_range.push(*min_location);
     }
+
+    println!(
+        "Minimum location amongst all ranges: {}",
+        min_location_per_range.iter().min().unwrap()
+    );
 }
