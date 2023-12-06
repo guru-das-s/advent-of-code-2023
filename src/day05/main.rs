@@ -38,45 +38,23 @@ fn parse_input(input: &str) {
     println!("{:?}", seeds);
 
     // Store line numbers of the text markers
-    let mut s2s = 0;
-    let mut s2f = 0;
-    let mut f2w = 0;
-    let mut w2l = 0;
-    let mut l2t = 0;
-    let mut t2h = 0;
-    let mut h2L = 0;
+    let mut text_marker_indices: Vec<usize> = Vec::new();
     for (i, line) in input.lines().enumerate() {
-        if line == "seed-to-soil map:" {
-            s2s = i;
-            continue;
-        }
-        if line == "soil-to-fertilizer map:" {
-            s2f = i;
-            continue;
-        }
-        if line == "fertilizer-to-water map:" {
-            f2w = i;
-            continue;
-        }
-        if line == "water-to-light map:" {
-            w2l = i;
-            continue;
-        }
-        if line == "light-to-temperature map:" {
-            l2t = i;
-            continue;
-        }
-        if line == "temperature-to-humidity map:" {
-            t2h = i;
-            continue;
-        }
-        if line == "humidity-to-location map:" {
-            h2L = i;
+        // text_marker_indices.push(i);
+        match line {
+            "seed-to-soil map:"
+            | "soil-to-fertilizer map:"
+            | "fertilizer-to-water map:"
+            | "water-to-light map:"
+            | "light-to-temperature map:"
+            | "temperature-to-humidity map:"
+            | "humidity-to-location map:" => text_marker_indices.push(i),
+            _ => continue,
         }
     }
-    println!("{} {} {} {} {} {} {}", s2s, s2f, f2w, w2l, l2t, t2h, h2L);
+    println!("{:?}", text_marker_indices);
 
-    let line_iter = input.lines().skip(s2s + 1);
+    let line_iter = input.lines().skip(text_marker_indices[0] + 1);
     let s2s_lines: Vec<Vec<u32>> = line_iter
         .take_while(|line| line_has_only_nums(line))
         .map(|line| get_numvec_from_string(line))
