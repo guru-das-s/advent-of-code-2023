@@ -21,7 +21,7 @@ fn line_has_only_nums(line: &str) -> bool {
     let nums_re = Regex::new(r"([0-9\s]+)+").unwrap();
     nums_re.is_match(line)
 }
-fn parse_input(input: &str) {
+fn parse_input(input: &str) -> (Vec<u32>, Vec<Vec<Vec<u32>>>) {
     let re = Regex::new(r"seeds:\s([0-9\s]+)+").unwrap();
 
     let mut seeds: Vec<u32> = Vec::new();
@@ -65,8 +65,9 @@ fn parse_input(input: &str) {
     }
 
     println!("{:?}", all_map_numbers);
+    (seeds, all_map_numbers)
 }
 
 fn main() {
-    parse_input(TEST_INPUT);
+    let (seeds, all_map_numbers) = parse_input(TEST_INPUT);
 }
