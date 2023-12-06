@@ -94,4 +94,14 @@ fn main() {
 
     assert_eq!(lookup_seed_location(79, &all_map_numbers), 82);
     assert_eq!(lookup_seed_location(13, &all_map_numbers), 35);
+
+    let mut all_locations: Vec<u32> = Vec::new();
+    for seed in seeds.iter() {
+        all_locations.push(lookup_seed_location(*seed, &all_map_numbers));
+    }
+
+    println!(
+        "Minimum location amongst all seeds: {}",
+        all_locations.iter().min().unwrap()
+    );
 }
