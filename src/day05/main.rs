@@ -68,6 +68,19 @@ fn parse_input(input: &str) -> (Vec<u32>, Vec<Vec<Vec<u32>>>) {
     (seeds, all_map_numbers)
 }
 
+fn walk_map(num: u32, map: &Vec<Vec<u32>>) -> u32 {
+    for entry in map.iter() {
+        let range = entry[1]..(entry[1] + entry[2] + 1);
+        if range.contains(&num) {
+            return entry[0] + num - entry[1];
+        }
+    }
+    num
+}
+
 fn main() {
     let (seeds, all_map_numbers) = parse_input(TEST_INPUT);
+    assert_eq!(walk_map(98, &all_map_numbers[0]), 50);
+    assert_eq!(walk_map(53, &all_map_numbers[0]), 55);
+    assert_eq!(walk_map(10, &all_map_numbers[0]), 10);
 }
