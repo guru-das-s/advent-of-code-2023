@@ -88,23 +88,30 @@ fn lookup_seed_location(seed: u64, all_map_numbers: &Vec<Vec<Vec<u64>>>) -> u64 
 }
 
 fn main() {
-    let (seeds, all_test_map_numbers) = parse_input(TEST_INPUT);
-    assert_eq!(walk_map(98, &all_test_map_numbers[0]), 50);
-    assert_eq!(walk_map(53, &all_test_map_numbers[0]), 55);
-    assert_eq!(walk_map(10, &all_test_map_numbers[0]), 10);
+    // let (seeds, all_test_map_numbers) = parse_input(TEST_INPUT);
+    // assert_eq!(walk_map(98, &all_test_map_numbers[0]), 50);
+    // assert_eq!(walk_map(53, &all_test_map_numbers[0]), 55);
+    // assert_eq!(walk_map(10, &all_test_map_numbers[0]), 10);
 
-    assert_eq!(lookup_seed_location(79, &all_test_map_numbers), 82);
-    assert_eq!(lookup_seed_location(13, &all_test_map_numbers), 35);
+    // assert_eq!(lookup_seed_location(79, &all_test_map_numbers), 82);
+    // assert_eq!(lookup_seed_location(13, &all_test_map_numbers), 35);
 
-    let (seeds, all_map_numbers) = parse_input(INPUT);
+    let (seeds, all_map_numbers) = parse_input(TEST_INPUT);
 
     let mut all_locations: Vec<u64> = Vec::new();
     for seed in seeds.iter() {
         all_locations.push(lookup_seed_location(*seed, &all_map_numbers));
     }
 
+    // Part 1
     println!(
         "Minimum location amongst all seeds: {}",
         all_locations.iter().min().unwrap()
     );
+
+    // Part 2
+    let mut min_location_per_range: Vec<u64> = Vec::new();
+    for pair in seeds.chunks(2) {
+        println!("{} {}", pair[0], pair[1]);
+    }
 }
