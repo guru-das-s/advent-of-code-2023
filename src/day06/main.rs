@@ -1,20 +1,16 @@
-fn ways_to_win(max_t: u32, max_d: u32) -> usize {
-    let mut ways: Vec<u32> = Vec::new();
+fn ways_to_win(max_t: i32, max_d: i32) -> i32 {
+    // t * (max_t - t) = d
+    // -t^2 + max_t * t - d = 0
+    // Quadratic equation with a = -1, b = max_t, c = -max_d
+    // t = (-b +/- sqrt(b^2 - 4 * a * c)) / (2 * a)
 
-    ways = (1..max_t)
-        .step_by(1)
-        .filter_map(|t| {
-            if (max_t - t) > (max_d / t) {
-                Some(t)
-            } else {
-                None
-            }
-        })
-        .collect();
+    let discr = max_t.pow(2) - (4 * -1 * -max_d);
+    let sqrt_discr = (discr as f64).sqrt();
+    let t1: f64 = (-max_t as f64 + sqrt_discr) / (-2 as f64);
+    let t2: f64 = (-max_t as f64 - sqrt_discr) / (-2 as f64);
+    println!("Roots: {} {}", t1, t2);
 
-    println!("{:?}, len {}", ways, ways.len());
-
-    ways.len()
+    (t2.ceil() - t1.floor() - 1 as f64) as i32
 }
 
 fn main() {
