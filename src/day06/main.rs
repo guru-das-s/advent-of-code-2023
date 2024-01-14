@@ -1,5 +1,15 @@
 const INPUT: &str = include_str!("input");
 
+fn smoosh_num_vec(nums: &Vec<i64>) -> i64 {
+    let mut smoosh = String::new();
+
+    for num in nums {
+        smoosh += &num.to_string();
+    }
+
+    smoosh.parse().unwrap()
+}
+
 fn ways_to_win(max_t: i64, max_d: i64) -> i64 {
     // t * (max_t - t) = d
     // -t^2 + max_t * t - d = 0
@@ -45,4 +55,9 @@ fn main() {
     println!("Part 1: {}", all_ways_product);
 
     assert_eq!(ways_to_win(71530, 940200), 71503);
+
+    let dekerned_time = smoosh_num_vec(&times_and_distances[0]);
+    let dekerned_distance = smoosh_num_vec(&times_and_distances[1]);
+
+    println!("Part 2: {}", ways_to_win(dekerned_time, dekerned_distance));
 }
