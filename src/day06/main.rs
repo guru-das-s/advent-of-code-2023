@@ -34,5 +34,13 @@ fn main() {
     assert_eq!(ways_to_win(15, 40), 8);
     assert_eq!(ways_to_win(30, 200), 9);
 
-    println!("{:?}", parse_input(INPUT));
+    let times_and_distances = parse_input(INPUT);
+    let num_pairs = times_and_distances[0].len();
+    let mut all_ways_product = 1;
+
+    for i in 0..num_pairs {
+        all_ways_product *= ways_to_win(times_and_distances[0][i], times_and_distances[1][i]);
+    }
+
+    println!("Part 1: {}", all_ways_product);
 }
