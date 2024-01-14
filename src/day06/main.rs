@@ -1,6 +1,6 @@
 const INPUT: &str = include_str!("input");
 
-fn ways_to_win(max_t: i32, max_d: i32) -> i32 {
+fn ways_to_win(max_t: i64, max_d: i64) -> i64 {
     // t * (max_t - t) = d
     // -t^2 + max_t * t - d = 0
     // Quadratic equation with a = -1, b = max_t, c = -max_d
@@ -12,18 +12,18 @@ fn ways_to_win(max_t: i32, max_d: i32) -> i32 {
     let t2: f64 = (-max_t as f64 - sqrt_discr) / (-2 as f64);
     println!("Roots: {} {}", t1, t2);
 
-    (t2.ceil() - t1.floor() - 1 as f64) as i32
+    (t2.ceil() - t1.floor() - 1 as f64) as i64
 }
 
-fn parse_input(input: &str) -> Vec<Vec<i32>> {
-    let mut times_and_distances: Vec<Vec<i32>> = Vec::new();
+fn parse_input(input: &str) -> Vec<Vec<i64>> {
+    let mut times_and_distances: Vec<Vec<i64>> = Vec::new();
     for line in input.lines() {
-        let mut nums: Vec<i32> = Vec::new();
+        let mut nums: Vec<i64> = Vec::new();
         nums = line
             .trim()
             .split_whitespace()
-            .flat_map(str::parse::<i32>)
-            .collect::<Vec<i32>>();
+            .flat_map(str::parse::<i64>)
+            .collect::<Vec<i64>>();
         times_and_distances.push(nums);
     }
     times_and_distances
@@ -43,4 +43,6 @@ fn main() {
     }
 
     println!("Part 1: {}", all_ways_product);
+
+    assert_eq!(ways_to_win(71530, 940200), 71503);
 }
